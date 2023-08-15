@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: django-backend
+  labels:
+    app: django-backend
+  spec:
+    replicas: 1
+    selector:
+      matchLabels:
+        app: django-backend
+    template:
+      metadata:
+        labels:
+          app: django-backend
+      spec:
+        containers:
+          - name: django-kube
+            imagePullPolicy: Always
+            image: lionitesh/django-kube:latest
+            command: ["gunicorn", "web.wsgi:application","--bind","0.0.0.0:8000"]
+            ports:
+            - containerPort: 8000
+            
